@@ -53,6 +53,6 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
 EXPOSE 80
 
-HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:80 || exit 1
+#HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:80 || exit 1
 
 
