@@ -26,7 +26,7 @@ resource "docker_container" "jenkins" {
   privileged = "true"
   ports {
     internal = 8080
-    external = 8888
+    external = 8889
   }
   volumes {
     container_path = "/var/jenkins_home"
