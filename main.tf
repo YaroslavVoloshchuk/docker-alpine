@@ -25,14 +25,8 @@ resource "docker_container" "example-alpine" {
   restart = "always"
   privileged = "true"
   ports {
-    internal = 8080
+    internal = 80
     external = 8890
   }
-  volumes {
-    container_path = "/var/www/html"
-    host_path      = "/var/www/alpine-site"
-    
-  }
- 
-
+  
 }
