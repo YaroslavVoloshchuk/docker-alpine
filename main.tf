@@ -21,7 +21,7 @@ resource "docker_image" "jenkins" {
 # Create a container
 resource "docker_container" "jenkins" {
   image = docker_image.jenkins.latest
-  name  = "jenkins-server"
+  name  = "jenkins-serva4ok"
   restart = "always"
   privileged = "true"
   ports {
