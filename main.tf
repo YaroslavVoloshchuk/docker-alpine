@@ -24,6 +24,9 @@ resource "docker_container" "example-alpine" {
   name  = "php-site"
   restart = "always"
   privileged = "true"
+  lifecycle {
+    create_before_destroy = true
+  }
   ports {
     internal = 80
     external = 8890
