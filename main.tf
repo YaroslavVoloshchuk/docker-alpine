@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "local" {
-    path = "/home/bamik/tfstate/terraform.tfstate"
+    path = "/var/jenkins_data/terraform.tfstate"
   }
 
 }
@@ -35,10 +35,4 @@ resource "docker_container" "example-alpine" {
     internal = 80
     external = 8890
   }
-#volumes {
-#    container_path = "/var/data/tfstate"
-#    host_path      = "/var/data/tfstate"
-
-#  }
-  
 }
