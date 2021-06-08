@@ -5,6 +5,10 @@ terraform {
       version = "2.12.2"
     }
   }
+  backend "local" {
+    path = "/var/tfstate/terraform.tfstate"
+  }
+
 }
 
 provider "docker" { 
@@ -30,6 +34,11 @@ resource "docker_container" "example-alpine" {
   ports {
     internal = 80
     external = 8890
+  }
+volumes {
+    container_path = "/var/tfstate"
+    host_path      = "/var/tfstate"
+
   }
   
 }
