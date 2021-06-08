@@ -36,7 +36,7 @@ RUN addgroup -g 1001 -S bamik && adduser -G bamik -u 1001 -s /bin/sh -D bamik
 RUN chown -R bamik.bamik /var/www/html && \
   chown -R bamik.bamik /run && \
   chown -R bamik.bamik /var/lib/ && \
-  chown -R bamik.bamik /var/log/
+  chown -R bamik.bamik /var/log/ && \
   chown -R bamik.bamik /var/tfstate/
 
 VOLUME ["/var/www/html"]
