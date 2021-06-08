@@ -28,7 +28,7 @@ COPY supervisord.conf /etc/supervisord.conf
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/www/html && mkdir -p /run/nginx && mkdir -p /var/tfstate
+RUN mkdir -p /var/www/html && mkdir -p /run/nginx && mkdir -p /var/data/tfstate
 
 RUN addgroup -g 1001 -S bamik && adduser -G bamik -u 1001 -s /bin/sh -D bamik
 
@@ -37,7 +37,7 @@ RUN chown -R bamik.bamik /var/www/html && \
   chown -R bamik.bamik /run && \
   chown -R bamik.bamik /var/lib/ && \
   chown -R bamik.bamik /var/log/ && \
-  chown -R bamik.bamik /var/tfstate/
+  chown -R bamik.bamik /var/data/tfstate/
 
 VOLUME ["/var/www/html"]
 

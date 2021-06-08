@@ -36,7 +36,7 @@ resource "docker_container" "example-alpine" {
     external = 8890
   }
 volumes {
-    container_path = "/var/tfstate"
+    container_path = "/var/data/tfstate"
     host_path      = "/var/data/tfstate"
 
   }
