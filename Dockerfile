@@ -30,24 +30,24 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/www/html && mkdir -p /run/nginx 
 
-RUN addgroup -g 1001 -S bamik && adduser -G bamik -u 1001 -s /bin/sh -D bamik
+RUN addgroup -S -g 1001 nonroot && adduser -S -D -u 1001 -s /sbin/nologin -G nonroot nonroot
 
-# Make sure files/folders needed by the processes are accessable when they run under the bamik user
-RUN chown -R bamik.bamik /var/www/html && \
-  chown -R bamik.bamik /run && \
-  chown -R bamik.bamik /var/lib/ && \
-  chown -R bamik.bamik /var/log/ 
+# Make sure files/folders needed by the processes are accessable when they run under the nonroot user
+RUN chown -R nonroot.nonroot /var/www/html && \
+  chown -R nonroot.nonroot /run && \
+  chown -R nonroot.nonroot /var/lib/ && \
+  chown -R nonroot.nonroot /var/log/ 
   
 
 VOLUME ["/var/www/html"]
 
 # Switch to use a non-root user from here on
-USER bamik
+USER nonroot
 
 # Add application
 WORKDIR /var/www/html
 
-COPY --chown=bamik car-rental/ /var/www/html/
+COPY --chown=nonroot car-rental/ /var/www/html/
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 
