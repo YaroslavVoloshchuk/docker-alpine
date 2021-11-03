@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Cloning Git') {
       steps {
-        git([url: 'git@github.com:YaroslavVoloshchuk/docker-alpine.git', branch: 'master', credentialsId: 'git-access'])
+        git([url: 'git@github.com:YaroslavVoloshchuk/docker-alpine.git', branch: 'develop', credentialsId: 'git-access'])
 
       }
     }
