@@ -36,16 +36,16 @@ pipeline {
     stage('Upload aftifact to S3') {
       steps{    
         withAWS(region: 'us-east-1', credentials: 'aws-access') {
-                s3Upload(file: 'phpsite_latest.tar.gz', bucket: 'docker-alpine', path: 'artifacts/phpsite_latest.tar.gz')
+                s3Upload(file: 'phpsite_latest.tar.gz', bucket: 'docker-alpine', path: 'artifacts/phpsite_latest_dev.tar.gz')
       } 
      }
     }   
     stage('Deploy Image to DockerHub') {
       steps{
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        sh "docker tag $imagename $imagename:latest" 
-        sh "docker tag $imagename:latest $imagename:v1.0.$BUILD_NUMBER"
-        sh "docker push $imagename:latest && docker push $imagename:v1.0.$BUILD_NUMBER"
+        sh "docker tag $imagename $imagename_dev:latest" 
+        sh "docker tag $imagename:latest $imagename_dev:v1.0.$BUILD_NUMBER"
+        sh "docker push $imagename:latest && docker push $imagename_dev:v1.0.$BUILD_NUMBER"
         
       }
     }
@@ -54,20 +54,20 @@ pipeline {
       steps {
         script{  
          docker.withRegistry('https://903120719010.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-access') {
-            sh "docker tag $imagename:latest 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:latest"
-            sh "docker tag $imagename:v1.0.$BUILD_NUMBER 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:v1.0.$BUILD_NUMBER"
-            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:latest"
-            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:v1.0.$BUILD_NUMBER"
+            sh "docker tag $imagename:latest 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:latest"
+            sh "docker tag $imagename:v1.0.$BUILD_NUMBER 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:v1.0.$BUILD_NUMBER"
+            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:latest"
+            sh "docker push 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:v1.0.$BUILD_NUMBER"
         }
     }
       }    
 }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $imagename:v1.0.$BUILD_NUMBER"
-        sh "docker rmi $imagename:latest"
-        sh "docker rmi 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:v1.0.$BUILD_NUMBER"
-        sh "docker rmi 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine:latest"
+        sh "docker rmi $imagename_dev:v1.0.$BUILD_NUMBER"
+        sh "docker rmi $imagename_dev:latest"
+        sh "docker rmi 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:v1.0.$BUILD_NUMBER"
+        sh "docker rmi 903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine-dev:latest"
 
       }
     }
