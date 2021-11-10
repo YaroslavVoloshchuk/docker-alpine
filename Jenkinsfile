@@ -24,14 +24,14 @@ pipeline {
     }
     stage('Doker save') {
       steps{
-         sh "docker save $imagename | gzip > phpsite_latest.tar.gz"
+         sh "docker save $imagename | gzip > phpsite_latest_dev.tar.gz"
       }
     }    
 
     stage('Upload aftifact to S3') {
       steps{    
         withAWS(region: 'us-east-1', credentials: 'aws-access') {
-                s3Upload(file: 'phpsite_latest.tar.gz', bucket: 'docker-alpine', path: 'artifacts/phpsite_latest.tar.gz')
+                s3Upload(file: 'phpsite_latest_dev.tar.gz', bucket: 'docker-alpine', path: 'artifacts/phpsite_latest_dev.tar.gz')
       } 
      }
     }   
