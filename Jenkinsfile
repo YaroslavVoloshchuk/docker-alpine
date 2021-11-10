@@ -4,7 +4,8 @@ pipeline {
   environment {
     imagename = "docker-alpine"
     registry = '903120719010.dkr.ecr.us-east-1.amazonaws.com/docker-alpine'
-    registryCredential = 'aws-access'    
+    registryCredential = 'aws-access' 
+    
   }
   
   stages {
@@ -23,14 +24,14 @@ pipeline {
     }
     stage('Doker save') {
       steps{
-         sh "docker save $imagename | gzip > phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz"
+         sh "docker save $imagename | gzip > phpsite_latest.tar.gz"
       }
     }    
 
     stage('Upload aftifact to S3') {
       steps{    
         withAWS(region: 'us-east-1', credentials: 'aws-access') {
-                s3Upload(file: "phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz", bucket: 'docker-alpine', path: 'artifacts/"phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz"')
+                s3Upload(file: 'phpsite_latest.tar.gz', bucket: 'docker-alpine', path: 'artifacts/phpsite_latest.tar.gz')
       } 
      }
     }   
