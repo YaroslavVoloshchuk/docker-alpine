@@ -23,14 +23,14 @@ pipeline {
     }
     stage('Doker save') {
       steps{
-         sh "docker save $imagename | gzip > "phpsite_${v1.0 + env.BUILD_NUMBER}.tar.gz""
+         sh "docker save $imagename | gzip > phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz"
       }
     }    
 
     stage('Upload aftifact to S3') {
       steps{    
         withAWS(region: 'us-east-1', credentials: 'aws-access') {
-                s3Upload(file: "phpsite_${v1.0 + env.BUILD_NUMBER}.tar.gz", bucket: 'docker-alpine', path: 'artifacts/"phpsite_${v1.0 + env.BUILD_NUMBER}.tar.gz"')
+                s3Upload(file: "phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz", bucket: 'docker-alpine', path: 'artifacts/"phpsite_v_1_0_${env.BUILD_NUMBER}.tar.gz"')
       } 
      }
     }   
